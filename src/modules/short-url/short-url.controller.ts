@@ -5,7 +5,7 @@ import { IJwtPayload } from '../auth/interfaces/jwt-payload.interface';
 import { ShortUrlDto } from './dtos/create-short-url.dto';
 import { ShortUrlService } from './short-url.service';
 
-@UseGuards(AuthGuard('jwt'))
+
 @Controller('short-url')
 export class ShortUrlController {
 
@@ -13,6 +13,7 @@ export class ShortUrlController {
         private shortUrlService: ShortUrlService
     ) { }
 
+    @UseGuards(AuthGuard('jwt'))
     @Post('')
     async createUrl(
         @Body(ValidationPipe) { url }: ShortUrlDto,
@@ -20,7 +21,8 @@ export class ShortUrlController {
     ) {
         return this.shortUrlService.createUrl(user, url);
     }
-
+    
+    @UseGuards(AuthGuard('jwt'))
     @Get('')
     async getMyUrls(
         @GetUser() user: IJwtPayload
